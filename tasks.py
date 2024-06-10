@@ -31,10 +31,17 @@ class MelodyTasks:
                 ```
                 
                 Use the information gathered by the previous agent and adapt the
-                writing style to the music genre ({genre}). 
+                writing style to following music: {genre}. 
                 
-                Your final answer must be the lyrics of the song, and nothing else.
+                Your final answer must be the lyrics of the song, and nothing else. 
                 """),
             expected_output="The lyrics of the song, and nothing else",
+            agent=agent
+        )
+    
+    def song_generation_task(self, agent: Agent):
+        return Task(
+            description="Generate a song from the provided lyrics",
+            expected_output="Show the user the urls for checking the generated songs",
             agent=agent
         )
