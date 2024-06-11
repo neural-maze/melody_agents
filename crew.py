@@ -15,7 +15,7 @@ load_dotenv()
 class MelodyCrew:
     
     # Change the URL if you are using another port
-    URL = "http://localhost:3000"
+    URL = "http://suno-api:3000"
     LLM = ChatGroq(api_key=os.environ.get("GROQ_API_KEY"), model="llama3-70b-8192")
 
     
@@ -58,21 +58,3 @@ class MelodyCrew:
         )
                 
         return crew.kickoff()
-        
-        
-
-if __name__ == "__main__":
-    
-    print("\n########################")
-    print("WELCOME TO MELODY AGENTS")
-    print("########################\n")
-    
-    topic = input(
-        "What's the topic of the song? "
-    )
-    genre = input(
-        "What's the music genre? "
-    )
-    
-    melody_crew = MelodyCrew(topic, genre)
-    print(melody_crew.run())

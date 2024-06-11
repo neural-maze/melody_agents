@@ -1,6 +1,8 @@
 from PIL import Image
 import streamlit as st
 
+from crew import MelodyCrew
+
 LOGO = Image.open("./img/logo.png")
 
 MARKDOWN_INTRO = """
@@ -24,6 +26,10 @@ st.markdown(MARKDOWN_INTRO)
 
 st.markdown("---")
 
-topic = st.text_input("Topic", "A song about Elon Musk's last tweet")
-genre = st.text_input("Genre", "Rap")
+topic = st.text_input("Topic", "The discussion between Yann Lecun and Elon Musk")
+genre = st.text_input("Genre", "Death Metal")
+    
+melody_crew = MelodyCrew(topic, genre)
+result = melody_crew.run()
 
+st.markdown(result)

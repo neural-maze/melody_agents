@@ -13,18 +13,11 @@ RUN apt-get update && apt-get install -y \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy the requirements file first to leverage Docker cache if requirements haven't changed
-COPY requirements.txt .
+# Copy the source dir
+COPY . .
 
 # Install Python dependencies
 RUN pip3 install --no-cache-dir -r requirements.txt
-
-# Copy the logo.png file into the img directory in the container
-COPY img/logo.png /app/img/
-
-# Copy the Streamlit application file
-COPY app.py .
-
 
 # Expose the port that Streamlit will run on
 EXPOSE 8501
