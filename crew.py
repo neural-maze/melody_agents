@@ -2,7 +2,6 @@ import os
 from textwrap import dedent
 from dotenv import load_dotenv
 
-
 from crewai import Crew
 from langchain_groq import ChatGroq
 
