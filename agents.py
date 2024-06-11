@@ -6,6 +6,7 @@ from crewai_tools import SerperDevTool
 from custom_tools import ScrapeWebsiteTool
 from custom_tools import SunoTool
 
+from callback_handler import CustomStreamlitCallbackHandler
 
 
 class MelodyAgents:
@@ -17,7 +18,7 @@ class MelodyAgents:
         
         # Define some useful tools
         self.search_tool = SerperDevTool()
-        self.scrape_website_tool = ScrapeWebsiteTool(limit=2000)
+        self.scrape_website_tool = ScrapeWebsiteTool(limit=1000)
         self.suno_tool = SunoTool(url=self.url, genre=self.genre)
         
         
@@ -31,6 +32,7 @@ class MelodyAgents:
             ),
             verbose=True,
             allow_delegation=False,
+            callbacks=[CustomStreamlitCallbackHandler(color="green")],
             llm=self.llm
         )
     
@@ -42,6 +44,7 @@ class MelodyAgents:
             backstory="A creative lyricist who excels at creating high quality lyrics",
             verbose=True,
             allow_delegation=False,
+            callbacks=[CustomStreamlitCallbackHandler(color="green")],
             llm=self.llm
         )
 
@@ -56,5 +59,6 @@ class MelodyAgents:
             tools=[self.suno_tool],
             verbose=True,
             allow_delegation=False,
+            callbacks=[CustomStreamlitCallbackHandler(color="green")],
             llm=self.llm
         )

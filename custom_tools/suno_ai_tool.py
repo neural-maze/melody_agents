@@ -23,6 +23,18 @@ class SunoTool(BaseTool):
         self.url = f"{url}/api/custom_generate"
         self.genre = genre
         
+        
+    def download_audios(self, audio_url: str, audio_id: int):
+        response = requests.get(audio_url, stream=True)
+        save_path = f"./{audio_id}.mp3"
+        
+        if response.status_code == 200:
+            with open(save_path, 'wb') as file:
+                for chunk in response.iter_content(chunk_size=1024):
+                    file.write(chunk)
+        else:
+            raise ValueError("Invalid URL, the audio can't be downloaded")
+        
     def _run(
         self,
         lyrics: str,
@@ -36,18 +48,12 @@ class SunoTool(BaseTool):
             "wait_audio": True
         }
         try:
-            print(payload)
             response = requests.post(self.url, json=payload, headers={'Content-Type': 'application/json'})
             audio_info = response.json()
-            print(audio_info)
         except Exception as e:
-            print(e)
             raise ValueError(e)
         
-        response = f"""You can access the two generated
-        songs in the following links. Hope you like them!
+        self.download_audios(audio_url=audio_info[0].get("audio_url"), audio_id=1)
+        self.download_audios(audio_url=audio_info[1].get("audio_url"), audio_id=2)
         
-        Song 1: {audio_info[0].get("audio_url")}
-        Song 2:  {audio_info[1].get("audio_url")}
-        """
-        return audio_info
+        return "Audios successfully downloaded"
