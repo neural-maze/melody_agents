@@ -33,8 +33,8 @@ class MelodyAgents:
             verbose=True,
             allow_delegation=False,
             callbacks=[CustomStreamlitCallbackHandler(color="green")],
-            llm=self.llm
-        )
+            llm=self.llm,
+            max_rpm=5000,       )
     
     def lyrics_creator_agent(self):
         return Agent(
@@ -60,5 +60,5 @@ class MelodyAgents:
             verbose=True,
             allow_delegation=False,
             callbacks=[CustomStreamlitCallbackHandler(color="green")],
-            llm=self.llm
+            llm=self.llm,
         )

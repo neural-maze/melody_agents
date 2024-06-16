@@ -1,6 +1,7 @@
+import time
 import json
 import requests
-from typing import Type, Optional
+from typing import Type
 from pydantic.v1 import BaseModel, Field
 from crewai_tools import BaseTool
 
@@ -23,18 +24,6 @@ class SunoTool(BaseTool):
         self.url = f"{url}/api/custom_generate"
         self.genre = genre
         
-        
-    def download_audios(self, audio_url: str, audio_id: int):
-        response = requests.get(audio_url, stream=True)
-        save_path = f"./{audio_id}.mp3"
-        
-        if response.status_code == 200:
-            with open(save_path, 'wb') as file:
-                for chunk in response.iter_content(chunk_size=1024):
-                    file.write(chunk)
-        else:
-            raise ValueError("Invalid URL, the audio can't be downloaded")
-        
     def _run(
         self,
         lyrics: str,
@@ -43,17 +32,14 @@ class SunoTool(BaseTool):
         payload = {
             "prompt": lyrics,
             "tags": self.genre,
-            "title": "Generated Song",
+            "title": "Melody Agents Song",
             "make_instrumental": False,
-            "wait_audio": True
+            "wait_audio": False
         }
         try:
             response = requests.post(self.url, json=payload, headers={'Content-Type': 'application/json'})
-            audio_info = response.json()
+            _ = response.json()
         except Exception as e:
             raise ValueError(e)
         
-        self.download_audios(audio_url=audio_info[0].get("audio_url"), audio_id=1)
-        self.download_audios(audio_url=audio_info[1].get("audio_url"), audio_id=2)
-        
-        return "Audios successfully downloaded"
+        return "Your songs are being generated ... 🤖"

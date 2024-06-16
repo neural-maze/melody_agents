@@ -1,15 +1,9 @@
+import json
 from PIL import Image
 import streamlit as st
 
 from crew import MelodyCrew
 
-
-def display_audio(audio_id: int):
-    with open(f"./{audio_id}.mp3", "rb") as audio_file:
-        audio_bytes = audio_file.read()
-        
-    st.audio(audio_bytes, format="audio/mp3")
-    
 
 LOGO = Image.open("./img/logo.png")
 
@@ -55,12 +49,6 @@ if st.button("Submit"):
     else:
         with st.spinner("Agents are working ... "):
             melody_crew = MelodyCrew(topic, genre)
-            melody_crew.run()
+            result = melody_crew.run()
             
-            st.markdown("---")
-            
-            st.markdown("# First Song\n")
-            display_audio(audio_id=1)
-            
-            st.markdown("# Second Song\n")
-            display_audio(audio_id=2)
+            st.markdown("Your songs are being generated!! Please go to your Suno account and enjoy the melody!! 🤖🤖🤖 \n\n ")
